@@ -617,7 +617,7 @@ console.log([...question.values()]);
 // 1. Create an array 'events' of the different game events that happened (no duplicates)
 // 2. After the game has finished, is was found that the yellow card from minute 64 was unfair. So remove this event from the game events log.
 // 3. Compute and log the following string to the console: "An event happened, on average, every 9 minutes" (keep in mind that a game has 90 minutes)
-// 4. Loop over 'gameEvents' and log each element to the console, marking whether it's in the first half or second half (after 45 min) of the game, like this: 
+// 4. Loop over 'gameEvents' and log each element to the console, marking whether it's in the first half or second half (after 45 min) of the game, like this:
 // [FIRST HALF] 17:⚽GOAL
 
 const gameEvents = new Map([
@@ -637,12 +637,162 @@ const gameEvents = new Map([
 const events = [...new Set(gameEvents.values())];
 console.log(events);
 //remove the yellow card from minute 64
-gameEvents.delete(64)
+gameEvents.delete(64);
 console.log(gameEvents);
 //compute the average frequency of the events happening,
-const averageFrq = 90/gameEvents.size;
+const averageFrq = 90 / gameEvents.size;
 console.log(`An event happened on average every ${averageFrq} minutes.`);
 
-for(const [eventTime, event] of gameEvents){
-  console.log(eventTime <= 45 ? `[FIRST HALF] ${eventTime}:${event}`: `[SECOND HALF] ${eventTime}:${event}`);
+for (const [eventTime, event] of gameEvents) {
+  console.log(
+    eventTime <= 45
+      ? `[FIRST HALF] ${eventTime}:${event}`
+      : `[SECOND HALF] ${eventTime}:${event}`
+  );
 }
+
+// 20. WORKING WITH STRINGS
+const airline = 'TAP Air Portugal';
+const plane = 'A320';
+
+// getting the character at a certain posn in  a string
+console.log(plane[0]); //A
+// reading the length of strings
+console.log(airline.length); //16
+
+//strings also have methods
+console.log(airline.indexOf('r')); //6 counted from zero, gives the first occurence
+console.log(airline.lastIndexOf('r')); //10
+// we can also search for entire words
+console.log(airline.indexOf('Portugal')); //8, if not found we get a -1
+// we can use these indexes to extractg parts of a string
+console.log(airline.slice(4)); //Air Portugal,4 is the begin parameter or the position that the extraction will start, this does not mutate the underlyin string
+
+// we can also specify the end parameter
+console.log(airline.slice(4, 7)); //Air it stops extracting between it reaches the stop parameter, length will be end paraemeter minus the beginning parameter comes in
+
+// we don't have to hardcode the values
+console.log(airline.slice(0, airline.indexOf(' '))); //TAP
+// to get the last word
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); //Portugal
+// we can even define a negative begin arguement and it starts extracting from the end
+console.log(airline.slice(-5)); //tugal
+console.log(airline.slice(1, -1)); //AP Air Portuga
+
+// a function that takes a plane seat and logs to the console whether it is a middle seat or not
+const checkMiddleSeat = function (seat) {
+  // B and E are middle seats
+  // so we just want to check if the seat that we received has a B or an E and if so then it is a middle seat
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') {
+    console.log(`You got the middle seat which no one wants.`);
+  } else {
+    console.log(`You got lucky.`);
+  }
+};
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');
+
+// strings are primitives, then why do they have methods?
+//JavaScript will automatically convert a string primitive to a string object(boxing) whenever we call a method on a string, this is why it might be a primitive but still has methods. This is done as shown
+console.log(new String('jonas'));
+
+// 21.WORKING WITH STRINGS PART 2
+
+// converting to lowercase
+console.log(airline.toLowerCase());
+// converting to uppercase
+console.log(airline.toUpperCase());
+
+// fixing capitalisation in a passenger name
+const passenger = 'dEnnIS'; //Dennis is what we want
+const passengerLower = passenger.toLowerCase();
+const passengerCorrect =
+  passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect);
+
+// Comparing emails of passengers
+const email = 'hello@dennis.io';
+const loginEmail = ' Hello@DEnnis.Io \n';
+//step 1: convert to lowecase
+const lowerEmail = loginEmail.toLowerCase();
+// removing spaces
+const trimmedEmail = lowerEmail.trim();
+console.log(trimmedEmail);
+// all of this can be done in one step
+const normalEmail = loginEmail.toLowerCase().trim();
+console.log(normalEmail);
+console.log(email === normalEmail); //true
+// there is also trim start and trim end and they do exactly what they sound
+
+//replacing
+const priceGB = '288, 97E';
+// to dollar, replacing pound sign with dollar sign and comma with a dot
+const priceUS = priceGB.replace('E', '$').replace(',', '.');
+console.log(priceUS); //288. 97$
+
+// we can also replace whole parts of a string
+const announcement =
+  'All passengers come to boarding door 23. Boarding door 23!';
+//we need to replace door to gate, we will use the regular expression to target all the occurences since replace will only replace the first word that it comes across
+console.log(announcement.replace(/door/g, 'gate'));
+// these methods are case sensitive
+
+//methods that return booleans: includes, startsWith, endsWith
+const plane2 = 'A320neo';
+console.log(plane2.includes('A320')); //true
+console.log(plane2.includes('Boeing')); //false
+console.log(plane2.startsWith('Air')); //false
+
+// 22. WORKING WITH STRINGS PART 3
+
+// split allows us to split a string into an array based on a dividor
+console.log('a+ver+nice+string'.split('+')); //['a', 'ver', 'nice', 'string']
+// join method is the opposite of split
+console.log(['Mr.', 'dennis', 'otwoma'].join('-')); //Mr.-dennis-otwoma
+
+// we can take advantage of this to capitalize a name
+const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+  for (const n of names) {
+    // namesUpper.push(n[0].toUpperCase()+n.slice(1));
+    // or
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
+  }
+  console.log(namesUpper.join(' '));
+};
+capitalizeName('jessica ann smith davis');
+capitalizeName('dennis otwoma');
+
+// padding a string
+//adding a number of character to a string until it has a certain desired length
+const message = 'go to gate 23!';
+console.log(message.padStart(25, '+')); //+++++++++++go to gate 23!, the addition symbols will be added till the final string has a length of 25
+// there is also padEnd
+console.log(message.padStart(25, '+').padEnd(30, '+'));
+
+// real world example of padding, the credit card problem
+const maskCreditCard = function (number) {
+  const str = number + '';
+  const last = str.slice(-4);
+  return last.padStart(str.length, '*');
+};
+console.log(maskCreditCard(1434134232));
+console.log(maskCreditCard(4523525));
+console.log(maskCreditCard(456354354));
+
+// Repeat method
+//allows us to repeat the same string multiple times
+const message2 = 'Bad weater...All Depatures Delayed... ';
+console.log(message2.repeat(5));
+
+const planesInLine = function (n) {
+  console.log(`Ther are ${n} planes in the line ${'✈'.repeat(n)}`);
+};
+planesInLine(5);
+planesInLine(3);
+planesInLine(12);
+
+// coding challenge
