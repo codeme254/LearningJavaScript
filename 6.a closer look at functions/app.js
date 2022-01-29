@@ -57,9 +57,36 @@ checkIn(flight, dennis);
 
 // passing by value and passing by reference: javascript does not have anything like passing by reference
 
-
 // FIRST CLASS AND HIGH ORDER FUNCTIONS
 // FIRST CLASS FUNCTIONS meaning that functions are simply treated as values, in JS functions are just othr types of objects, they are just values meaning we can store them in variables, manipulate them etc., this also means in JS we can pass functions as arguements and return functions, we can also call methods on functions.
 
 // HIGHER ORDER FUNCTION is a function that receives or returns another function
 // first class functions and higher order functions are two different things, first class functions meaning a function is a normal citizen and higher order function meaning a function is receiving or returning another function
+
+// 6.FUNCTION ACCEPTING CALLBACK FUNCTIONS
+const oneWord = function (str) {
+  return str.replace(/ /g, '').toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+// the higher order funtion
+const transformer = function (str, fn) {
+  console.log(`Original string: ${str}.`);
+  console.log(`Transformed string: ${fn(str)}.`);
+  console.log(`Transformed by: ${fn.name}`);
+};
+
+transformer('JavaScript is the best!', upperFirstWord); //we are only passing the reference not calling it in this call
+//THIS IS THE OUTPUT
+// Original string: JavaScript is the best!.
+// app.js:79 Transformed string: JAVASCRIPT is the best!.
+// app.js:80 Transformed by: upperFirstWord
+
+transformer('JavaScript is the best!', oneWord);
+// Original string: JavaScript is the best!.
+// app.js:79 Transformed string: javascriptisthebest!.
+// app.js:80 Transformed by: oneWord
