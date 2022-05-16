@@ -40,6 +40,7 @@ Person.prototype.calcAge = function () {
   console.log(2037 - this.birthYear);
 };
 
+console.log(`Something important: ${Person.prototype}`);
 console.log(Person.prototype);
 dennis.calcAge();
 
@@ -47,13 +48,52 @@ dennis.calcAge();
 console.log(dennis); //only contains the firstName and the birthyear but does not contain the calcage method but still we have access to it due to prototypal inheritance.
 console.log(dennis.__proto__); //{ calcAge: [Function (anonymous)] }
 console.log(dennis.__proto__ == Person.prototype); //true
-console.log(Person.prototype.isPrototypeOf(dennis))
+console.log(Person.prototype.isPrototypeOf(dennis));
 
 // We can also set properties on the prototype and not only methods
-Person.prototype.species = 'Home Sapiens';
+Person.prototype.species = "Home Sapiens";
 
 // checking for own properties
-console.log(dennis.hasOwnProperty('firstName'))//true
-console.log(dennis.hasOwnProperty('species'))//false
+console.log(dennis.hasOwnProperty("firstName")); //true
+console.log(dennis.hasOwnProperty("species")); //false
 
 // this is because, species is not an own property to the dennis object, it is not really inside the dennis object, the dennis object simply has access to it due to prototype.
+// Prototype chain: the connection to a prototype and ability to look up methods and prototypes.
+
+// PROTOTYPAL INHERITANCE.
+console.log(dennis.__proto__.__proto__); //Object.prototype (top of the prototype chain)
+console.dir(Person.prototype.constructor);
+
+const myArr = [10, 20, 5]
+console.dir(myArr.prototype)
+console.log(myArr.__proto__)
+
+// The method console.dir () displays an interactive list of the properties of the specified JavaScript object
+
+// coding challenge
+// Use a constructor to implement a car. A car ha s a make and a speed.
+// implement an 'accelerate' method that will increase the car's speed by 10 and log the new speed to the console.
+//Implement a 'brake' method that will reduce the car's speed by 5 and log the new speed to the console.
+
+const Car = function(speed, make){
+  this.speed = speed
+  this.make = make
+}
+
+Car.prototype.accelerate = function(){
+  this.speed += 10
+  console.log(this.speed)
+}
+
+Car.prototype.brake = function(){
+  this.speed -= 5
+  console.log(this.speed)
+}
+
+const bmw = new Car(90, 'bmw')
+bmw.accelerate()
+bmw.brake()
+
+const mercedes = new Car(130, 'mercedes')
+mercedes.accelerate()
+mercedes.brake()
